@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.12.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+android {
+    compileSdkVersion 34
+    namespace "com.csr.c2w1a1"
+
+    defaultConfig {
+        minSdkVersion 31
+        targetSdkVersion 34
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        mlModelBinding true
+    }
+}
+
+dependencies {
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.5.0'
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.5.0'
+}
