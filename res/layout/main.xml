@@ -1,22 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
+
+    <Button
+        android:id="@+id/conv2Button"
+        android:text="CONV 2 Layer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="C2W1A1"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="13dp"
+        android:onClick="onConv2Click" />
 
-    <com.github.mikephil.charting.charts.ScatterChart
-        android:id="@+id/scatterChart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#e0e0e0"/>
-</LinearLayout>
+    <Button
+        android:id="@+id/resnetButton"
+        android:text="Resnet 50 Layer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/conv2Button"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="13dp"
+        android:onClick="onResnetClick"/>
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_below="@+id/conv2Button"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_below="@id/textView1"
+        android:layout_marginTop="20dp"
+        android:text="Result: None"
+        android:textSize="20dp"/>
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="75dp"
+        android:layout_centerVertical="true"
+        />
+
+</RelativeLayout>
