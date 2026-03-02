@@ -4,23 +4,25 @@
 
 
     <Button
-        android:id="@+id/conv2Button"
-        android:text="CONV 2 Layer"
+        android:id="@+id/computeButton"
+        android:text="COMPUTE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="13dp"
-        android:onClick="onConv2Click" />
+        android:onClick="onComputeClick" />
 
-    <Button
-        android:id="@+id/resnetButton"
-        android:text="Resnet 50 Layer"
+    <ToggleButton
+        android:id="@+id/nnapiToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/conv2Button"
+        android:checked="false"
+        android:layout_alignLeft="@id/computeButton"
         android:layout_marginStart="140dp"
         android:layout_marginTop="13dp"
-        android:onClick="onResnetClick"/>
+        android:textOff="GPU Disabled"
+        android:textOn="GPU Enabled"
+        android:onClick="onNNApiClick"/>
 
 
     <TextView
@@ -29,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginStart="25dp"
-        android:layout_below="@+id/conv2Button"
+        android:layout_below="@+id/computeButton"
         android:layout_marginTop="20dp"
         android:textSize="20dp"/>
 
