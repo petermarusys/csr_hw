@@ -1,4 +1,4 @@
-package com.csr.c4w2a2
+package com.csr.dogcat
 
 import android.app.Activity
 import android.graphics.Bitmap
@@ -6,16 +6,17 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
-import com.csr.c4w2a2.databinding.MainBinding
+import com.csr.dogcat.databinding.MainBinding
+import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.gpu.GpuDelegate
 import org.tensorflow.lite.support.common.FileUtil
+import org.tensorflow.lite.support.common.ops.NormalizeOp
+import org.tensorflow.lite.support.image.ImageProcessor
+import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.support.image.ops.ResizeOp
 import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.MappedByteBuffer
-import java.util.*
 import kotlin.concurrent.thread
-import kotlin.math.exp
 
 class MainActivity: Activity() {
     companion object {
@@ -48,13 +49,21 @@ class MainActivity: Activity() {
             } else {
                 options.setNumThreads(1)
             }
-            val tflite = Interpreter(FileUtil.loadMappedFile(this, "alpaca_model.tflite"), options)
+            val tflite = Interpreter(FileUtil.loadMappedFile(this, "dogcat_model.tflite"), options)
+
+            val inputShape = tflite.getInputTensor(0).shape()
+            imageProcessor = ImageProcessor.Builder()
+                .add(ResizeOp(inputShape.get(1), inputShape.get(2), ResizeOp.ResizeMethod.BILINEAR))
+                .build()
+
+            val outputShape = tflite.getOutputTensor(0).shape()
 
             inferenceTime = 0
             firstFrame = true
             for(image in images) {
                 val inputs = convertBitmapToByteBuffer(getBitmap(image))
-                var outputs = Array(1) { FloatArray(1) }
+
+ 		var outputs = Array(outputShape[0]) { FloatArray(outputShape[1]) }
 
                 startTime = SystemClock.uptimeMillis()
                 tflite.run(inputs, outputs)
@@ -75,8 +84,7 @@ class MainActivity: Activity() {
     private fun printLabels(outputs: Array<FloatArray>) {
         val runtime = SystemClock.uptimeMillis() - startTime
 
-        var logit = outputs[0][0]
-        var text = "Result: " + (1 / (1 +exp(logit)))
+        var text = "Result: " + outputs[0][0]
 
         runOnUiThread {
             binding.textView1.text = "Inference time (ms): " + runtime
@@ -94,34 +102,22 @@ class MainActivity: Activity() {
     private var inferenceTime : Long = 0
     private var firstFrame : Boolean = true
 
-    private var imgData: ByteBuffer = ByteBuffer.allocateDirect(160 * 160 * 3 * 4)
-                                .order(ByteOrder.nativeOrder())
-    private val intValues = IntArray(160 * 160)
-    private val IMAGE_MEAN = 0f
-    private val IMAGE_STD = 1f
+    private lateinit var imageProcessor: ImageProcessor
+    private lateinit var tensorImage: TensorImage
 
     private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
-        imgData.rewind()
-
-        bitmap.getPixels(intValues, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-
-        var pixel = 0
-        for (i in 0 until 160) {
-            for (j in 0 until 160) {
-                val v: Int = intValues.get(pixel++)
-                imgData.putFloat(((v shr 16 and 0xFF) - IMAGE_MEAN) / IMAGE_STD)
-                imgData.putFloat(((v shr 8 and 0xFF) - IMAGE_MEAN) / IMAGE_STD)
-                imgData.putFloat(((v and 0xFF) - IMAGE_MEAN) / IMAGE_STD)
-            }
-        }
-	return imgData
+        tensorImage = TensorImage(DataType.FLOAT32)
+        tensorImage.load(bitmap)
+        tensorImage = imageProcessor.process(tensorImage)
+        return tensorImage.buffer
     }
 
     private fun getBitmap(imageName: String): Bitmap {
         val stream = BitmapFactory.decodeStream(assets.open(imageName))
+        val bitmap = Bitmap.createScaledBitmap(stream, 480, 480, true)
         runOnUiThread {
-            binding.imageView.setImageBitmap(Bitmap.createScaledBitmap(stream, 480, 480, true))
+            binding.imageView.setImageBitmap(bitmap)
         }
-        return Bitmap.createScaledBitmap(stream, 160, 160, true)
+        return bitmap
     }
 }
