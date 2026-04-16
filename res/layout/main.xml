@@ -20,8 +20,8 @@
         android:layout_alignLeft="@id/computeButton"
         android:layout_marginStart="140dp"
         android:layout_marginTop="13dp"
-        android:textOff="GPU Disabled"
-        android:textOn="GPU Enabled"
+        android:textOff="NNAPI Disabled"
+        android:textOn="NNAPI Enabled"
         android:onClick="onNNApiClick"/>
 
 
@@ -55,5 +55,15 @@
         android:layout_marginEnd="75dp"
         android:layout_centerVertical="true"
         />
+
+    <com.csr.c4w3a1.OverlayView
+        android:id="@+id/overlay_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/imageView"
+        android:layout_alignBottom="@id/imageView"
+        android:layout_alignLeft="@id/imageView"
+        android:layout_alignRight="@id/imageView"
+        android:background="@android:color/transparent" />
 
 </RelativeLayout>
