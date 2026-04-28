@@ -19,7 +19,7 @@ repositories {
 
 android {
     compileSdkVersion 34
-    namespace "com.csr.c4w3a1"
+    namespace "com.csr.c4w3a2"
 
     defaultConfig {
         minSdkVersion 31

@@ -52,18 +52,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="75dp"
-        android:layout_centerVertical="true"
+        android:layout_marginEnd="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
         />
 
-    <com.csr.c4w3a1.OverlayView
+    <com.csr.c4w3a2.OverlayView
         android:id="@+id/overlay_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@id/imageView"
-        android:layout_alignBottom="@id/imageView"
-        android:layout_alignLeft="@id/imageView"
-        android:layout_alignRight="@id/imageView"
+        android:layout_width="640px"
+        android:layout_height="480px"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
         android:background="@android:color/transparent" />
 
 </RelativeLayout>
