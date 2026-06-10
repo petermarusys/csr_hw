@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
+        android:layout_width="1280px"
+        android:layout_height="720px"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="120px"
+        android:layout_centerVertical="true">
+    </androidx.camera.view.PreviewView>
+
+    <com.peyo.yolocam.OverlayView
+        android:id="@+id/overlayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/viewFinder"
+        android:layout_alignBottom="@id/viewFinder"
+        android:layout_alignLeft="@id/viewFinder"
+        android:layout_alignRight="@id/viewFinder"
+        android:background="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/recogText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/viewFinder"
+        android:layout_marginStart="40dp"
+        android:layout_centerVertical="true"
+        android:text="Inference:\n 0 ms"
+        android:textColor="@android:color/white"
+        android:textSize="20dp" />
+
+</RelativeLayout>
